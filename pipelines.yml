@@ -5,8 +5,8 @@ resources:
   - name: app_repo
     type: GitRepo
     configuration:
-      gitProvider: {{ .Values.gitIntegration }}                      
-      path: {{ .Values.gitRepositoryPath }}    
+      gitProvider: {{ .Values.fendermice/Swampup2021-su204-cicd-deep-dive }}                      
+      path: {{ .Values.fendermice/Swampup2021-su204-cicd-deep-dive }}    
       branches:
         include: master
 
