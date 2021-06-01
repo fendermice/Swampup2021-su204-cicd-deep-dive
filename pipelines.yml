@@ -13,12 +13,12 @@ resources:
   - name: app_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: {{ .Values.artifactoryIntegration }}
+      sourceArtifactory: {{ .Values.su204-docker-staging-local }}
 
   - name: app_promoted_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: {{ .Values.artifactoryIntegration }}
+      sourceArtifactory: {{ .Values.su204-docker-staging-local }}
 
 pipelines:
   - name: app_dev_pipeline_su204
@@ -34,7 +34,7 @@ pipelines:
           inputResources:
             - name: app_repo
           integrations:
-            - name: {{ .Values.artifactoryIntegration }}         
+            - name: {{ .Values.su204-docker-staging-local }}         
             
       - name: app_push
         type: DockerPush
@@ -42,7 +42,7 @@ pipelines:
           affinityGroup: docker_group
           targetRepository: {{ .Values.sourceRepository }}
           integrations:
-            - name: {{ .Values.artifactoryIntegration }}                            
+            - name: {{ .Values.su204-docker-staging-local }}                            
           inputSteps:
             - name: app_build
 
@@ -74,7 +74,7 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: {{ .Values.artifactoryIntegration }}
+            - name: {{ .Values.su204-docker-staging-local }}
           inputResources:
             - name: app_promoted_buildinfo
         execution:
