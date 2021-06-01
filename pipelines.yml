@@ -5,20 +5,20 @@ resources:
   - name: app_repo
     type: GitRepo
     configuration:
-      gitProvider: {{ .Values.github_int }}                      
-      path: {{ .Values.fendermice/Swampup2021-su204-cicd-deep-dive }}    
+      gitProvider: {{ .Values.gitIntegration }}                      
+      path: {{ .Values.gitRepositoryPath }}    
       branches:
         include: master
 
   - name: app_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: {{ .Values.su204-docker-staging-local }}
+      sourceArtifactory: {{ .Values.artifactoryIntegration }}
 
   - name: app_promoted_buildinfo
     type: BuildInfo
     configuration:
-      sourceArtifactory: {{ .Values.su204-docker-staging-local }}
+      sourceArtifactory: {{ .Values.artifactoryIntegration }}
 
 pipelines:
   - name: app_dev_pipeline_su204
@@ -29,12 +29,12 @@ pipelines:
           affinityGroup: docker_group
           dockerFileLocation: .
           dockerFileName: Dockerfile
-          dockerImageName: {{ .Values.artifactoryUrl }}/{{ .Values.sourceRepository }}/{{ .Values.app_docker_image }}  
+          dockerImageName: {{ .Values.artifactoryUrl }}/{{ .Values.sourceRepository }}/{{ .Values.imageName }}  
           dockerImageTag: ${run_number}
           inputResources:
             - name: app_repo
           integrations:
-            - name: {{ .Values.su204-docker-staging-local }}         
+            - name: {{ .Values.artifactoryIntegration }}         
             
       - name: app_push
         type: DockerPush
@@ -42,7 +42,7 @@ pipelines:
           affinityGroup: docker_group
           targetRepository: {{ .Values.sourceRepository }}
           integrations:
-            - name: {{ .Values.su204-docker-staging-local }}                            
+            - name: {{ .Values.artifactoryIntegration }}                            
           inputSteps:
             - name: app_build
 
@@ -74,7 +74,7 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: {{ .Values.su204-docker-prod-local }}
+            - name: {{ .Values.artifactoryIntegration }}
           inputResources:
             - name: app_promoted_buildinfo
         execution:
