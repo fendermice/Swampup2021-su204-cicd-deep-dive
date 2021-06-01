@@ -74,7 +74,7 @@ pipelines:
         type: Bash
         configuration:
           integrations:
-            - name: {{ .Values.su204-docker-staging-local }}
+            - name: {{ .Values.su204-docker-prod-local }}
           inputResources:
             - name: app_promoted_buildinfo
         execution:
